@@ -1,0 +1,7 @@
+---
+
+test_mailhog_users:
+  - {
+    name: mailhog,
+    password: test
+  }

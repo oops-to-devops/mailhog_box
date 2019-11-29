@@ -1,0 +1,15 @@
+[Unit]
+Description=Mailhog Daemon
+After=network.target
+
+[Service]
+{% for key in mailhog_env|default({}) %}
+Environment="{{ key }}={{ mailhog_env[key] }}"
+{% endfor %}
+Environment="MAILHOG_OPTS={{ mailhog_params | default("") }} {{ mailhog_internal_params }}"
+User={{ mailhog_user | default('nobody') }}
+ExecStart=/usr/local/bin/MailHog ${MAILHOG_OPTS}
+StandardOutput=journal
+
+[Install]
+WantedBy=multi-user.target

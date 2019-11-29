@@ -1,0 +1,11 @@
+---
+# defaults file for sa-mailhog
+  role_dir: "{{role_path}}"
+  mailhog_version: 1.0.0
+  mailhog_env: {}
+  mailhog_params: ""
+  mailhog_internal_params: ""
+  mailhog_authfile: /etc/mailhog.htpasswd
+  mailhog_users: []
+
+

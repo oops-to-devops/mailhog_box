@@ -1,0 +1,17 @@
+---
+- name: Converge
+  hosts: all
+
+  pre_tasks:
+    - debug: msg="Pre tasks section for {{ansible_host}}"
+
+    - set_fact:
+        remote_ip_address: "{{ ansible_host }}"
+
+    - include_vars: "playbook_vars.yml"
+
+  roles:
+     - {
+        role: "sa-mailhog",
+        mailhog_users: "{{ box_mailhog_users }}"
+       }
