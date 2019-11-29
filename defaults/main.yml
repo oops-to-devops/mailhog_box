@@ -3,4 +3,4 @@
 box_mailhog_version: 1.0.0
 box_mailhog_env: {}
 box_mailhog_params: ""
-box_mailhog_users: []
+#box_mailhog_users: []

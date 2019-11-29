@@ -17,8 +17,9 @@
 
   - block:
     - name: Mailhog | Pregenerate users
-      shell: htpasswd -b -c {{ mailhog_authfile }} {{ item.name }} {{ item.password }}
+      shell: htpasswd -bB -c {{ mailhog_authfile }} {{ item.name }} {{ item.password }}
       with_items: "{{ mailhog_users | default([]) }}"
+      register: pregenerate_users_result
       become: yes
       tags:
         - mailhog
@@ -34,13 +35,14 @@
       file:
         path: "{{ mailhog_authfile }}"
         owner: root
-        group: nobody
+        group: root
         mode: "u=rwx,g=r,o=r"
+      when: pregenerate_users_result is changed
       become: yes
       tags:
         - mailhog
 
-    when: mailhog_users | bool
+    when: mailhog_users is defined and mailhog_users | count > 0
 
   - name: Mailhog | Download distribution
     get_url: url=http://github.com/mailhog/MailHog/releases/download/v{{ mailhog_version }}/MailHog_linux_amd64 dest=/usr/local/bin/MailHog mode=0755

@@ -8,7 +8,12 @@ Environment="{{ key }}={{ mailhog_env[key] }}"
 {% endfor %}
 Environment="MAILHOG_OPTS={{ mailhog_params | default("") }} {{ mailhog_internal_params }}"
 User={{ mailhog_user | default('nobody') }}
-ExecStart=/usr/local/bin/MailHog ${MAILHOG_OPTS}
+ExecStart=/bin/bash --login -c "/usr/local/bin/MailHog ${MAILHOG_OPTS}"
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+
 StandardOutput=journal
 
 [Install]
