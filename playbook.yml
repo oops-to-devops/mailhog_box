@@ -12,9 +12,11 @@
     - set_fact:
         remote_ip_address: "{{ ansible_host }}"
 
-    - name: ANSIBLE PYTHON | install python 2
-      raw: test -e /usr/bin/python || (apt -qqy update && apt install -qy python-minimal)
-      become: yes
+
+    - name: Install fallback python for Ansible if needed
+      raw: test -e /usr/bin/python || test -e /usr/bin/python3 || (apt -y update && apt install -y python-minimal)
+      become: true
+      changed_when: false
 
     - name:  UNPRIVILEGED USERS | Get acl dependency (ansible unprivileged user operations magic)
       apt: pkg="acl"
